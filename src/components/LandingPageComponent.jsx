@@ -1,10 +1,8 @@
-import type { GridColumnProps } from "@progress/kendo-react-grid";
-import GridComponet from "./GridComponet";
+import GridComponet from "./GridComponet.jsx";
 
 const LandingPageComponent = () => {
 
-
-    const column: GridColumnProps[] = [
+    const column = [
         { field: 'Name', title: 'Name' },
         { field: 'EffectiveDate', title: 'Effective Date', format: '{0:MM/dd/yyyy}' },
         { field: 'TermDate', title: 'Term Date', format: '{0:MM/dd/yyyy}' },

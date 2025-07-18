@@ -1,7 +1,6 @@
-
 import './App.css'
 
-import LandingPageComponent from './components/LandingPageComponent'
+import LandingPageComponent from './components/LandingPageComponent.jsx'
 
 function App() {
 

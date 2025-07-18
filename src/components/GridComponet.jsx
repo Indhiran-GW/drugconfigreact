@@ -1,9 +1,8 @@
-import { Grid, GridColumn, type GridColumnProps } from "@progress/kendo-react-grid";
-import type { SortDescriptor } from '@progress/kendo-data-query';
+import { Grid, GridColumn } from "@progress/kendo-react-grid";
 import React from "react";
 
-const GridComponet = ({ columns, data }: { columns: GridColumnProps[]; data: any[] }) => {
-  const [sort, setSort] = React.useState<SortDescriptor[]>([]);
+const GridComponet = ({ columns, data }) => {
+  const [sort, setSort] = React.useState([]);
   const [skip, setSkip] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(10);
 
@@ -14,7 +13,7 @@ const GridComponet = ({ columns, data }: { columns: GridColumnProps[]; data: any
     };
   }, []);
 
-  const handlePageChange = (e: any) => {
+  const handlePageChange = (e) => {
     setSkip(e.page.skip);
     setPageSize(e.page.take);
   };
