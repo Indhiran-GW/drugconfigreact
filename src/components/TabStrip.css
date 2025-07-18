@@ -1,0 +1,19 @@
+/* Custom TabStrip Styles */
+.custom-tabstrip .k-tabstrip-items .k-tabstrip-item {
+  flex: 1 1 25%;           /* equally distributed */
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+  padding: 8px 0;
+}
+
+.custom-tabstrip .k-tabstrip-items {
+  display: flex;
+  width: 100%;
+}
+
+.custom-tabstrip .k-tabstrip-item .k-link {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}

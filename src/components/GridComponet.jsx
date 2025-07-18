@@ -1,27 +1,100 @@
 import { Grid, GridColumn } from "@progress/kendo-react-grid";
+import { DropDownButton } from "@progress/kendo-react-buttons";
+import { orderBy, filterBy } from "@progress/kendo-data-query";
 import React from "react";
 
 const GridComponet = ({ columns, data }) => {
+
+    
   const [sort, setSort] = React.useState([]);
   const [skip, setSkip] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(10);
+  const [filter, setFilter] = React.useState();
 
-  React.useEffect(() => {
-    console.log('GridComponent mounted');
-    return () => {
-      console.log('GridComponent destroyed');
-    };
-  }, []);
+  // Action items for dropdown button
+  const actionItems = [
+    { text: 'Edit', id: 'edit' },
+    { text: 'View', id: 'view' },
+    { text: 'Delete', id: 'delete' },
+    { text: 'Copy', id: 'copy' }
+  ];
+
+  const handleItemClick = (e, dataItem) => {
+    console.log('Action clicked:', e.item.text, 'for item:', dataItem);
+    // Handle different actions here
+    switch(e.item.id) {
+      case 'edit':
+        console.log('Edit action for:', dataItem);
+        break;
+      case 'view':
+        console.log('View action for:', dataItem);
+        break;
+      case 'delete':
+        console.log('Delete action for:', dataItem);
+        break;
+      case 'copy':
+        console.log('Copy action for:', dataItem);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Action cell component
+  const ActionCell = (props) => {
+    return (
+      <td>
+        <DropDownButton
+          items={actionItems}
+          onItemClick={(e) => handleItemClick(e, props.dataItem)}
+          className="custom-action-button"
+        >
+          Actions
+          <span 
+            className="k-icon k-i-chevron-down" 
+            style={{ marginLeft: '6px', color: '#377dff' }}
+          ></span>
+        </DropDownButton>
+      </td>
+    );
+  };
+
+//   React.useEffect(() => {
+//     console.log('GridComponent mounted');
+//     return () => {
+//       console.log('GridComponent destroyed');
+//     };
+//   }, []);
 
   const handlePageChange = (e) => {
     setSkip(e.page.skip);
     setPageSize(e.page.take);
   };
 
+  const handleFilterChange = (e) => {
+    setFilter(e.filter);
+    setSkip(0); // Reset to first page when filtering
+  };
+
+  // Apply filtering first, then sorting
+  let processedData = data;
+  
+  if (filter) {
+    processedData = filterBy(processedData, filter);
+  }
+  
+  if (sort.length > 0) {
+    processedData = orderBy(processedData, sort);
+  }
+  
+  // Get the current page data
+  const currentPageData = processedData.slice(skip, skip + pageSize);
+
   return (
     <Grid
-      style={{ height: '900px', width: '100%' }}
-      data={data.slice(skip, skip + pageSize)}
+      style={{ height: 'auto', width: '100%' }}
+      data={currentPageData}
+      total={processedData.length}
       skip={skip}
       pageable={{
         buttonCount: 5,
@@ -34,7 +107,9 @@ const GridComponet = ({ columns, data }) => {
       sort={sort}
       onSortChange={(e) => setSort(e.sort)} 
       onPageChange={handlePageChange}
-      filterable
+      filterable={true}
+      filter={filter}
+      onFilterChange={handleFilterChange}
     >
       {columns.map((col) => (
         <GridColumn
@@ -42,8 +117,18 @@ const GridComponet = ({ columns, data }) => {
           field={col.field}
           title={col.title}
           format={col.format}
+          filter={col.filtertype}
         />
       ))}
+      
+      {/* Actions Column */}
+      <GridColumn
+        title="Actions"
+        width="150px"
+        filterable={false}
+        sortable={false}
+        cell={ActionCell}
+      />
     </Grid>
   );
 };

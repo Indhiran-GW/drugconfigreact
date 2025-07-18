@@ -1,12 +1,17 @@
 import GridComponet from "./GridComponet.jsx";
+import { TabStrip, TabStripTab } from "@progress/kendo-react-layout";
+import React from "react";
+import "./TabStrip.css";
 
 const LandingPageComponent = () => {
 
+    const [selected, setSelected] = React.useState(0);
+
     const column = [
-        { field: 'Name', title: 'Name' },
-        { field: 'EffectiveDate', title: 'Effective Date', format: '{0:MM/dd/yyyy}' },
-        { field: 'TermDate', title: 'Term Date', format: '{0:MM/dd/yyyy}' },
-        { field: 'LastModified', title: 'Last Modified', format: '{0:MM/dd/yyyy}' },
+        { field: 'Name', title: 'Name' ,filtertype: 'text'},
+        { field: 'EffectiveDate', title: 'Effective Date', format: '{0:dd/MM/yyyy}' ,filtertype: 'date' },
+        { field: 'TermDate', title: 'Term Date', format: '{0:dd/MM/yyyy}' ,filtertype: 'date'},
+        { field: 'LastModified', title: 'Last Modified', format: '{0:dd/MM/yyyy}',filtertype: 'date' },
         ];
 
     const mockData = [
@@ -70,22 +75,72 @@ const LandingPageComponent = () => {
     ];
 
     return (
-        <>
-        
-        {/* <div>
-            <h1>RuleSet Configuration Tool</h1>
-        </div> */}
+        <>               
 
         <div style ={{ border: '1px solid #DEE2E6'}}>
             <h1 style={{ margin: '4px' }}> RuleSet Configurations</h1>
         </div>
 
+        <br></br>
 
-        <div style ={{ marginTop: '5px'}}>
-            <GridComponet columns={column} data={mockData}></GridComponet>
-        </div>
-        
-        
+        <TabStrip selected={selected} onSelect={(e) => setSelected(e.selected)} className="custom-tabstrip"> 
+            <TabStripTab title="Active RuleSet">
+                <br />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-10">
+                            <h2>Active RuleSets</h2>
+                            <div style ={{ marginTop: '5px'}}>
+                                <GridComponet columns={column} data={mockData}></GridComponet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </TabStripTab>
+            
+            <TabStripTab title="Pending RuleSets">
+                <br />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-10">
+                            <h2>Pending RuleSets</h2>
+                            <div style ={{ marginTop: '5px'}}>
+                                <GridComponet columns={column} data={mockData}></GridComponet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </TabStripTab>
+            
+            <TabStripTab title="Expired RuleSets">
+                <br />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-10">
+                            <h2>Expired RuleSets</h2>
+                            <div style ={{ marginTop: '5px'}}>
+                                <GridComponet columns={column} data={mockData}></GridComponet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </TabStripTab>
+            
+            <TabStripTab title="Deactivated RuleSets">
+                <br />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-10">
+                            <h2>Deactivated RuleSets</h2>
+                            <div style ={{ marginTop: '5px'}}>
+                                <GridComponet columns={column} data={mockData}></GridComponet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </TabStripTab>
+        </TabStrip>
+                
         </>
     )
 
