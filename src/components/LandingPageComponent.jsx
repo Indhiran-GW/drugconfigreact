@@ -1,7 +1,6 @@
 import GridComponet from "./GridComponet.jsx";
 import { TabStrip, TabStripTab } from "@progress/kendo-react-layout";
 import React from "react";
-import "./TabStrip.css";
 
 const LandingPageComponent = () => {
 
@@ -77,8 +76,13 @@ const LandingPageComponent = () => {
     return (
         <>               
 
-        <div style ={{ border: '1px solid #DEE2E6'}}>
-            <h1 style={{ margin: '4px' }}> RuleSet Configurations</h1>
+        <div className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+                <h1 style={{ margin: '4px' }}> RuleSet Configurations</h1>
+            </div>
+            <div>
+                <input type="button" className="button" value="New RuleSet" />            
+            </div>
         </div>
 
         <br></br>
