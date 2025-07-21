@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@progress/kendo-react-buttons": "^11.2.0",
+    "@progress/kendo-react-dateinputs": "^11.2.0",
     "@progress/kendo-react-grid": "^11.2.0",
+    "@progress/kendo-react-inputs": "^11.2.0",
     "@progress/kendo-react-layout": "^11.2.0",
     "@progress/kendo-theme-default": "^11.1.0",
     "react": "^19.1.0",

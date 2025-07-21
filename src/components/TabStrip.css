@@ -44,7 +44,7 @@
     border: 0px solid rgba(0,0,0,0) !important;
 }
 .button {
-    height: 45px;
+    height: 40px;
     margin-right: 9px;
     background-color: #0062FF;
     color: white;
@@ -52,8 +52,7 @@
     padding-right: 15px;
     border-radius: 7px;
     border: none;
-    cursor: pointer;
-    font-size: medium;
+    cursor: pointer;    
     font-size: 15px;
 }
 .k-button .k-button-md .k-button-flat .k-button-flat-primary .k-selected

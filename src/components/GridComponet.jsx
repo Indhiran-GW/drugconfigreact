@@ -1,7 +1,8 @@
-import { Grid, GridColumn } from "@progress/kendo-react-grid";
-import { DropDownButton } from "@progress/kendo-react-buttons";
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
+import { DropDownButton, Button } from "@progress/kendo-react-buttons";
 import { orderBy, filterBy } from "@progress/kendo-data-query";
 import React from "react";
+// import { Grid, GridColumn as Column, GridToolbar, GridCustomCellProps } from '@progress/kendo-react-grid';
 
 const GridComponet = ({ columns, data }) => {
 
@@ -40,25 +41,6 @@ const GridComponet = ({ columns, data }) => {
     }
   };
 
-  // Action cell component
-  const ActionCell = (props) => {
-    return (
-      <td>
-        <DropDownButton
-          items={actionItems}
-          onItemClick={(e) => handleItemClick(e, props.dataItem)}
-          className="custom-action-button"
-        >
-          Actions
-          <span 
-            className="k-icon k-i-chevron-down" 
-            style={{ marginLeft: '6px', color: '#377dff' }}
-          ></span>
-        </DropDownButton>
-      </td>
-    );
-  };
-
 //   React.useEffect(() => {
 //     console.log('GridComponent mounted');
 //     return () => {
@@ -90,6 +72,18 @@ const GridComponet = ({ columns, data }) => {
   // Get the current page data
   const currentPageData = processedData.slice(skip, skip + pageSize);
 
+  // Action cell component with dropdown
+  const MyCommandEditCell = props => (
+    <td>
+      <DropDownButton
+        items={actionItems}
+        onItemClick={(e) => handleItemClick(e, props.dataItem)}
+        text="Actions"
+        className="custom-action-button"
+      />
+    </td>
+  );
+
   return (
     <Grid
       style={{ height: 'auto', width: '100%' }}
@@ -111,6 +105,16 @@ const GridComponet = ({ columns, data }) => {
       filter={filter}
       onFilterChange={handleFilterChange}
     >
+
+   <GridColumn filterable={false} width={50} columnType="checkbox" />
+
+    {/* <Column  title="Actio1ns" cells={{
+        data: MyCommandCell,
+        edit: {
+          text: MyCommandEditCell
+        }
+      }} width="200px" /> */}
+
       {columns.map((col) => (
         <GridColumn
           key={col.field}
@@ -121,14 +125,14 @@ const GridComponet = ({ columns, data }) => {
         />
       ))}
       
-      {/* Actions Column */}
+      {/* Actions Column
       <GridColumn
         title="Actions"
         width="150px"
         filterable={false}
         sortable={false}
-        cell={ActionCell}
-      />
+        cell={MyCommandEditCell}
+      /> */}
     </Grid>
   );
 };

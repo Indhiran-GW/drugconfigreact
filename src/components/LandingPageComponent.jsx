@@ -1,10 +1,13 @@
 import GridComponet from "./GridComponet.jsx";
+import RulesetConfigurationSearch from "./RulesetConfigurationSearch.jsx";
 import { TabStrip, TabStripTab } from "@progress/kendo-react-layout";
 import React from "react";
 
 const LandingPageComponent = () => {
 
     const [selected, setSelected] = React.useState(0);
+    const [filteredData, setFilteredData] = React.useState([]);
+    const [searchCriteria, setSearchCriteria] = React.useState(null);
 
     const column = [
         { field: 'Name', title: 'Name' ,filtertype: 'text'},
@@ -12,6 +15,58 @@ const LandingPageComponent = () => {
         { field: 'TermDate', title: 'Term Date', format: '{0:dd/MM/yyyy}' ,filtertype: 'date'},
         { field: 'LastModified', title: 'Last Modified', format: '{0:dd/MM/yyyy}',filtertype: 'date' },
         ];
+
+    // Search functionality
+    const handleSearch = (searchData) => {
+        console.log('Search initiated with:', searchData);
+        setSearchCriteria(searchData);
+        
+        // Filter mockData based on search criteria
+        let filtered = mockData.filter(item => {
+            let matches = true;
+            
+            // Name filter
+            if (searchData.Name && searchData.Name.trim() !== '') {
+                matches = matches && item.Name.toLowerCase().includes(searchData.Name.toLowerCase());
+            }
+            
+            // Effective Date filter
+            if (searchData.effectiveDate) {
+                const itemDate = new Date(item.EffectiveDate);
+                const searchDate = new Date(searchData.effectiveDate);
+                matches = matches && itemDate.toDateString() === searchDate.toDateString();
+            }
+            
+            // Term Date filter
+            if (searchData.termDate) {
+                const itemDate = new Date(item.TermDate);
+                const searchDate = new Date(searchData.termDate);
+                matches = matches && itemDate.toDateString() === searchDate.toDateString();
+            }
+            
+            // Last Modified filter
+            if (searchData.lastModified) {
+                const itemDate = new Date(item.LastModified);
+                const searchDate = new Date(searchData.lastModified);
+                matches = matches && itemDate.toDateString() === searchDate.toDateString();
+            }
+            
+            return matches;
+        });
+        
+        setFilteredData(filtered);
+    };
+
+    const handleClear = () => {
+        console.log('Search cleared');
+        setSearchCriteria(null);
+        setFilteredData([]);
+    };
+
+    // Get data to display (filtered or all)
+    const getDisplayData = () => {
+        return filteredData.length > 0 || searchCriteria ? filteredData : mockData;
+    };
 
     const mockData = [
       { Name : 'Acne Agents, Oral' , EffectiveDate :  new Date('2023-01-26'), TermDate : new Date('2078-12-31')   , LastModified : new Date('2025-06-10')},    
@@ -90,12 +145,13 @@ const LandingPageComponent = () => {
         <TabStrip selected={selected} onSelect={(e) => setSelected(e.selected)} className="custom-tabstrip"> 
             <TabStripTab title="Active RuleSet">
                 <br />
+                <RulesetConfigurationSearch onSearch={handleSearch} onClear={handleClear} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-10">
                             <h2>Active RuleSets</h2>
                             <div style ={{ marginTop: '5px'}}>
-                                <GridComponet columns={column} data={mockData}></GridComponet>
+                                <GridComponet columns={column} data={getDisplayData()}></GridComponet>
                             </div>
                         </div>
                     </div>
@@ -104,12 +160,13 @@ const LandingPageComponent = () => {
             
             <TabStripTab title="Pending RuleSets">
                 <br />
+                <RulesetConfigurationSearch onSearch={handleSearch} onClear={handleClear} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-10">
                             <h2>Pending RuleSets</h2>
                             <div style ={{ marginTop: '5px'}}>
-                                <GridComponet columns={column} data={mockData}></GridComponet>
+                                <GridComponet columns={column} data={getDisplayData()}></GridComponet>
                             </div>
                         </div>
                     </div>
@@ -118,12 +175,13 @@ const LandingPageComponent = () => {
             
             <TabStripTab title="Expired RuleSets">
                 <br />
+                <RulesetConfigurationSearch onSearch={handleSearch} onClear={handleClear} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-10">
                             <h2>Expired RuleSets</h2>
                             <div style ={{ marginTop: '5px'}}>
-                                <GridComponet columns={column} data={mockData}></GridComponet>
+                                <GridComponet columns={column} data={getDisplayData()}></GridComponet>
                             </div>
                         </div>
                     </div>
@@ -132,12 +190,13 @@ const LandingPageComponent = () => {
             
             <TabStripTab title="Deactivated RuleSets">
                 <br />
+                <RulesetConfigurationSearch onSearch={handleSearch} onClear={handleClear} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-10">
                             <h2>Deactivated RuleSets</h2>
                             <div style ={{ marginTop: '5px'}}>
-                                <GridComponet columns={column} data={mockData}></GridComponet>
+                                <GridComponet columns={column} data={getDisplayData()}></GridComponet>
                             </div>
                         </div>
                     </div>
